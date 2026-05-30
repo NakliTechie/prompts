@@ -1,6 +1,6 @@
 ---
-description: Scaffold a new project from attached handoff materials — create local folder, init git + remote repo, seed plan/, brief the first move
-argument-hint: "[name | parent/name]  (attach handoff md/zip)"
+description: Scaffold a new project from attached handoff materials OR an inline description — create local folder, init git + remote repo, seed plan/, brief the first move
+argument-hint: "[name | parent/name]  (attach md/zip OR describe inline)"
 allowed-tools: ["Bash", "Glob", "Grep", "Read", "Write", "Task"]
 ---
 
@@ -8,14 +8,22 @@ Bootstrap a new project from the handoff materials the user attached this sessio
 
 **Default parent dir:** `~/code` (edit this to match where you keep your repos — e.g. `~/projects`, `~/src`). Call the resolved value `$ROOT` below.
 
-## Phase 1 — Locate the attached inputs
+## Phase 1 — Identify the handoff source
 
-Find what the user attached with this `/scaffold` call:
-- Markdown files → will go at the project root
-- Zip files → will be extracted at the project root, preserving structure
+`/scaffold` accepts the handoff in three modes — pick whichever the user provided:
+
+**A. Attached files.** Markdown handoffs, zips, or a combination.
+- Markdown files → go to the project root
+- Zip files → extracted at the project root, preserving structure
 - Anything else → ask before including
 
-If you can't see any attachments, stop and ask: *"Drag the handoff files (md/zip) into chat, or paste their paths."*
+**B. Inline description.** `$ARGUMENTS` and/or the natural-language context around the user's `/scaffold` invocation IS the handoff. Examples: *"a static site tracking wage data over 50 years, Python + Pandas + Quarto"* or *"tiny CLI that watches a folder and runs pytest on change, single-file Bash for v0"*. Treat the prose as the handoff and synthesize a starter `README.md` from it in Phase 3.
+
+**C. Both.** Attached files are primary; the inline description is context. Drop the description into the initial commit message body and/or append a `## Context` section to the synthesized README.
+
+**Heuristic:** `$ARGUMENTS` containing only a name slug (`myapp`, `research/myapp`) is *not* a description — that's just the name. A description has multiple words / sentence-like prose.
+
+If neither files nor a substantive description is present (e.g., bare `/scaffold` or just `/scaffold myapp` with no context), stop and ask: *"Give me a handoff — drag md/zip into chat, or describe the project in a sentence or two."*
 
 ## Phase 2 — Project name + location
 
@@ -29,8 +37,21 @@ If the target folder exists and isn't empty, stop and ask for a different name. 
 ## Phase 3 — Materialize the local folder
 
 1. `mkdir -p` the target folder.
-2. For each attached zip: `unzip <zip> -d <target>` — preserve structure; ask before overwriting.
-3. Copy each attached md file into the target root. If a name collides with the zip's contents, ask which is authoritative or merge by renaming (`README.md` + `HANDOFF.md`).
+2. **For attached files** (mode A or C):
+   - For each attached zip: `unzip <zip> -d <target>` — preserve structure; ask before overwriting.
+   - Copy each attached md file into the target root. If a name collides with the zip's contents, ask which is authoritative or merge by renaming (`README.md` + `HANDOFF.md`).
+3. **For inline description** (mode B, or to augment mode C): synthesize a starter `README.md` from the user's prose and write it to the target root. Structure it lightly:
+   ```markdown
+   # <name>
+
+   > <one-line summary distilled from the description>
+
+   <the user's description, cleaned up — preserve their wording where it's clear>
+
+   ## Next steps
+   <bulleted next-steps if the description implied them; otherwise omit>
+   ```
+   Show a brief preview of the synthesized README in chat (3–5 lines) so the user can flag if it's wrong before the commit. Don't block on confirmation — proceed unless they interrupt.
 4. Run `ls -la <target>` to confirm what landed where.
 
 ## Phase 4 — Initial git + .gitignore
