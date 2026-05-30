@@ -1,6 +1,6 @@
 # Claude Code session commands
 
-Six [Claude Code](https://docs.claude.com/en/docs/claude-code) slash commands I use to run an agent across many projects at once. They share one idea: a **gitignored `plan/` folder** in each repo holding three files —
+Seven [Claude Code](https://docs.claude.com/en/docs/claude-code) slash commands I use to run an agent across many projects at once. They share one idea: a **gitignored `plan/` folder** in each repo holding three files —
 
 - `history.md` — Decisions · Log · Dead ends
 - `pending.md` — Now · Parked · Open questions
@@ -10,6 +10,7 @@ The commands read and write those files, so every session picks up exactly where
 
 | Command | When | What it does |
 |---------|------|--------------|
+| `/scaffold` | new project | Bootstrap from attached handoff materials (md/zip): local folder + git + remote repo + seeded `plan/` + a brief on the first move. |
 | `/standup` | start of day | Scan every repo with a `plan/` folder → active / idle / stale, each with its next move. Pick one. |
 | `/resume` | start of session | Read the handoff (workplan + pending + history + latest summary + git state), brief you, and wait. Read-only. |
 | `/decide "<why>"` | mid-session | Append a dated one-line decision to `history.md`. Captures the *why* before it evaporates. |
