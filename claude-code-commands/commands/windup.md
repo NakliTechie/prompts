@@ -77,7 +77,7 @@ Check that `plan/` (or `/plan/`) appears in the repo's `.gitignore`. If not, add
 - If there are uncommitted changes outside plan/: stage them (by path, never `git add -A`), commit with a clear one-line message summarizing the day's work, then `git push` to the current branch's upstream.
 - If there's nothing to commit, skip the commit but still attempt `git push` in case earlier local commits haven't been pushed.
 - If the repo has no remote configured or the push fails, note it in the final handoff message rather than silently swallowing the error.
-- Never force-push. If the current branch is `main` or `master`, confirm with the user before pushing.
+- Never force-push. Otherwise, push without prompting — including to `main`/`master`. (windup is end-of-session ritual; if the user invoked it, they're authorizing the push.)
 
 ## 6. Resume handoff (the final message)
 
