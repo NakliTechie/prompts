@@ -53,7 +53,8 @@ A route that renders blank or throws console errors is both a bad screenshot **a
 ## Phase 5 — Build the single-file guide
 
 The builder reads the screenshots + caption data and emits one self-contained `guide/index.html`:
-- **Structure** — header/intro · a **TOC** · one **role section** per role · **feature subsections** inside each, every feature = `screenshot + caption (title + one-line "what this screen is")`. Keyboard shortcuts / notes where useful.
+- **Structure** — header/intro · a **TOC** · one **role section** per role · **feature subsections** inside each, every feature = `screenshot + caption (title + one-line "what this screen is")`. Keyboard shortcuts / notes where useful. (Single-role app? Drop the role wrapper and organize straight by feature.)
+- **Theme from the app's own design tokens** — read the app's `:root` CSS custom properties (colors, radii, shadows) and font stack, and build the guide's chrome from *those*, so it reads as part of the product, not a generic gallery. (Bahi's builder pulls the app's color vars for exactly this.) This is the biggest visual-quality lever — don't hand-pick a palette when the app already defines one.
 - **Relative asset paths** — reference `screenshots/<role>/…` and link back into the app via a `../`-style base, so the guide works opened as a file or served from any host (Bahi's `BAHI_BASE="../"`).
 - **Captions are authored content** — keep them in the builder's `CAPTIONS`/`SECTIONS` data so regeneration never loses them. Write a real one-line explanation per screen, not the slug.
 - **Inline search (the addition over Bahi).** A sticky search box that filters live:
