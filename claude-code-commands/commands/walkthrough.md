@@ -58,7 +58,7 @@ For each role, drive the browser through each journey, repeating this loop per s
    - navigation dead-ends, broken back-button, double-submit, lost session
    - **first-run / empty-state** broken (the create-from-scratch path)
    - display bugs in currency / dates / numbers / locale; off-by-one in lists and pagination
-3. **If it broke, fix it now.** First give it a stable ID (`W1, W2, …`) and capture evidence — repro steps · expected vs. observed · a console/network excerpt · a screenshot. Then close the loop:
+3. **If it broke, fix it now.** First give it a stable ID by severity — `C1/H1/M1/L1` (Critical / High / Medium / Low), the same scheme `/forward-pass` uses so the IDs read the same downstream — and capture evidence: repro steps · expected vs. observed · a console/network excerpt · a screenshot. Then close the loop:
    - **Reproduce** to be sure it's real — don't fix a symptom you can't trigger.
    - **Root-cause** it — read the handler / component / service. Common culprits: an exception thrown inside an event handler or async callback; reading DOM/state *after* a teardown (modal close, unmount); a promise resolved inside a handler that hangs when the handler throws.
    - **Fix minimally** — match the surrounding code; smallest change that corrects the behavior.
@@ -66,7 +66,7 @@ For each role, drive the browser through each journey, repeating this loop per s
 4. **Continue** the journey from where you were.
 
 **Two guardrails so the loop stays a walkthrough, not a refactor:**
-- **Timebox each fix.** If the root cause turns into a large refactor, a shared-contract change, or anything that alters product behavior / needs a design call — **don't fix it inline. Defer it**: log the W-ID with what's broken and what would unblock it, point at `/decide`, and keep walking. Iterative ≠ reckless.
+- **Timebox each fix.** If the root cause turns into a large refactor, a shared-contract change, or anything that alters product behavior / needs a design call — **don't fix it inline. Defer it**: log the finding ID with what's broken and what would unblock it, point at `/decide`, and keep walking. Iterative ≠ reckless.
 - **One fix at a time, re-verified**, so a fix doesn't silently mask or cause the next bug.
 
 Run a **cross-role authorization probe** as part of the walk: as a low-privilege role, try a high-privilege action or URL directly — does the guard hold, or does the UI just hide the button (IDOR / privilege leak)? Fix a leak in place, or defer it if it needs a policy call.
@@ -78,7 +78,7 @@ For surfaces the browser can't drive — payments, outbound email, native file p
 **Write `plan/walkthrough-YYYY-MM-DD.md`** — a self-contained record, in this order:
 1. **Header** — date, scope (roles × journeys covered), counts: *found / fixed / deferred*.
 2. **Role inventory + coverage map** — each role, the journeys walked, and — crucially — **what was NOT reached**: roles you couldn't authenticate, flows you couldn't drive (payment, email, native dialogs), states you couldn't reach. The blind spots.
-3. **Issues** by ID — each: role · journey step · symptom · root cause · then either **FIXED: `path:line` + verification evidence** or **DEFERRED: why + what unblocks** (`→ /decide`).
+3. **Issues** by ID, grouped Critical → High → Medium → Low — each: role · journey step · symptom · root cause · then either **FIXED: `path:line` + verification evidence** or **DEFERRED: why + what unblocks** (`→ /decide`).
 4. **Cross-role / authz findings** — privilege leaks and guards that held.
 5. **Verification reality** — what the browser could and couldn't exercise this run, and what was stubbed.
 6. **Progress log** — seed one dated entry: `- YYYY-MM-DD: walkthrough complete — N roles, M journeys; X fixed, Y deferred.`

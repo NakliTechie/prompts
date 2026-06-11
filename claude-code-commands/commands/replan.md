@@ -13,6 +13,7 @@ List everything currently in `plan/` (excluding any existing `_archive/`). Class
 - **Daily summary** — matches `plan/YYYY-MM-DD-summary.md` or similar dated pattern. → folds into `history.md`
 - **Unnamed scratch** — generic names like `notes.md`, `scratch.md`, `thoughts.md`, untitled drafts. → folds into `history.md`
 - **Forward-pass audit report** — `plan/forward-pass-YYYY-MM-DD.md` (from `/forward-pass`). → sweep open (`[ ]`/`[~]`) workplan items into `pending.md`/`workplan.md`, fold its verified false-positives into `history.md` Dead ends, then archive the report
+- **Walkthrough audit report** — `plan/walkthrough-YYYY-MM-DD.md` (from `/walkthrough`). → same handling as a forward-pass report: sweep open (`[ ]`/`[~]`) / deferred items into `pending.md`/`workplan.md`, fold any verified non-issues into `history.md` Dead ends, then archive the report
 - **Canonical output** — `pending.md`, `workplan.md`, `history.md`. → gets rewritten this run
 - **Named design / intentional artifact** — anything with a meaningful name: `feature-x-design.md`, `<milestone>-breakdown.md`, `pending-from-<source>.md`, charters, spec drafts. → **leave untouched**
 
@@ -52,7 +53,7 @@ Merge rules:
 
 ## Step 3: Restructure pending.md
 
-Rewrite `plan/pending.md` into three sections, pulling from existing `pending.md`, any open items surfaced in the folded summaries, and any open (`[ ]`/`[~]`) batch items from forward-pass reports:
+Rewrite `plan/pending.md` into three sections, pulling from existing `pending.md`, any open items surfaced in the folded summaries, and any open (`[ ]`/`[~]`) / deferred items from forward-pass and walkthrough reports:
 
 ```
 # Pending
@@ -80,7 +81,7 @@ Regenerate `plan/workplan.md` from the freshly restructured pending Now. Same sh
 
 ## Step 5: Archive source files
 
-Create `plan/_archive/` if it doesn't exist. Move (don't copy, don't delete) all files classified as "Daily summary", "Unnamed scratch", or "Forward-pass audit report" into it. Preserve filenames. (For forward-pass reports, make sure open batch items landed in `pending.md`/`workplan.md` and verified false-positives landed in `history.md` Dead ends — per Steps 2 & 3 — before archiving.)
+Create `plan/_archive/` if it doesn't exist. Move (don't copy, don't delete) all files classified as "Daily summary", "Unnamed scratch", "Forward-pass audit report", or "Walkthrough audit report" into it. Preserve filenames. (For audit reports, make sure open/deferred items landed in `pending.md`/`workplan.md` and verified non-issues landed in `history.md` Dead ends — per Steps 2 & 3 — before archiving.)
 
 ## Step 6: Verify gitignore
 
