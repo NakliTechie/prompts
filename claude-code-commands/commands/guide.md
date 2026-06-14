@@ -38,6 +38,7 @@ Same runtime discipline as `/walkthrough`:
 - **Serve a production build, not dev mode** — faster, pre-compiled, and the bundle users actually run. (Bahi serves the static app with `python3 -m http.server`; a framework app needs `build` + `start`.) Use explicit `127.0.0.1` + a known-free port.
 - **Wait for real readiness before each shot** — `load` + `document.fonts.ready` + a short settle; never `domcontentloaded` (it fires before hydration → blank screenshots).
 - **Enter as each role with seeded data.** Prefer the app's own in-page hooks to inject a seeded dataset and **bypass un-automatable pickers** (Bahi's `capture.py` calls `readKhata`/`openDbFromBytes` and stubs the FS-Access picker). Otherwise log in through the UI. Seed enough that screens aren't empty — except the deliberate first-run shots.
+- **WebGPU can't be tested headless** — which is *why* we stage the DOM instead of running the model (headless Chromium has **no WebGPU**, so in-browser model inference just errors). Staged screenshots look right but aren't the live model output. To capture a genuinely model-loaded state, drive a real GPU browser via the **Chrome MCP** rather than headless Playwright.
 - **Capture console errors/warnings per route** — they go in the capture log and flag screens that are secretly broken.
 
 ## Phase 4 — Capture, walking each role's route-plan

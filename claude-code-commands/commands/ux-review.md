@@ -19,6 +19,7 @@ If the project has no browser surface, say so. If the current directory isn't a 
 Manufacture a genuine newcomer:
 - **Wipe everything.** A fresh browser context with no storage — localStorage, sessionStorage, IndexedDB, cookies, cache, service workers, OPFS, any picked folders. (A new Playwright context is cold by default; in a persistent browser, clear site data first.) **Do not seed** — empty *is* the thing under test.
 - **Serve a production build** — the real bundle a newcomer hits, on explicit `127.0.0.1` + a known-free port.
+- **WebGPU can't be tested headless.** Headless Chromium has **no WebGPU**, so a local-AI app that loads/runs a model in-browser errors on the model step — you can't walk the post-load journey cold. Walk those beats with the **Chrome MCP** (a real GPU browser); otherwise capture the pre-model first-run and record the model-dependent beats as blind spots. (This is the single most common gap in a local-AI cold review.)
 - **Approach from the canonical entry** the way a first-timer would — the landing URL / repo, no prior knowledge, no deep-link shortcuts. Pretend you've never seen it.
 
 ## Phase 2 — Walk the canonical first-time journey, narrating each beat
