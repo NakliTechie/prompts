@@ -61,7 +61,7 @@ For each chunk include:
 
 Item conventions:
 - A `[~]` partial / deferred item states what's done, what's left, and what would un-defer it — point at `/decide` when the blocker is a decision.
-- If a chunk came from a `/forward-pass` or `/walkthrough`, carry the finding IDs (`C1`, `H2`, …) and a `[test]` marker on any item whose verification is still owed.
+- If a chunk came from a `/forward-pass`, `/walkthrough`, or `/ux-review`, carry the finding IDs (`C1`, `H2`, …) and a `[test]` marker on any item whose verification is still owed.
 
 Items that don't yet cluster into a chunk go under a `## Unbatched` section — that flags they need more thought before they're actionable.
 

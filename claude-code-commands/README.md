@@ -1,6 +1,6 @@
 # Claude Code session commands
 
-Nine [Claude Code](https://docs.claude.com/en/docs/claude-code) slash commands I use to run an agent across many projects at once. They share one idea: a **gitignored `plan/` folder** in each repo holding three files —
+Ten [Claude Code](https://docs.claude.com/en/docs/claude-code) slash commands I use to run an agent across many projects at once. They share one idea: a **gitignored `plan/` folder** in each repo holding three files —
 
 - `history.md` — Decisions · Log · Dead ends
 - `pending.md` — Now · Parked · Open questions
@@ -17,6 +17,7 @@ The commands read and write those files, so every session picks up exactly where
 | `/forward-pass` | anytime | Fresh-eyes whole-app audit — bugs / security / stray code — that outputs a **batched workplan**, not a findings dump. Writes `plan/forward-pass-<date>.md`. |
 | `/walkthrough` | anytime | Live counterpart to `/forward-pass`: identify each user role, drive the running app through their journeys **in a real browser**, catch logical errors as they surface, and **fix them**. Writes `plan/walkthrough-<date>.md`. |
 | `/guide` | anytime | Documentation sibling of `/walkthrough`: walk each role's features **in a browser capturing screenshots**, then build a single-file **searchable HTML guide**. Regenerates from a committed generator — never hand-edits the output. |
+| `/ux-review` | anytime | Cold-first-timer UX review: wipe all state, walk the app **as a brand-new user**, and report where build-order accretion fails the newcomer (arrival, onboarding, nav/IA) — plus a Lighthouse a11y + perf pass. Read-only; proposes an ideal first-run + IA. Writes `plan/ux-review-<date>.md`. |
 | `/windup` | end of session | Day summary + pending + workplan + push + tomorrow's handoff. |
 | `/replan` | occasionally | Fold accumulated summaries + scratch back into the three files; archive the rest. |
 
