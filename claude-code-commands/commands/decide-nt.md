@@ -48,4 +48,4 @@ Recorded in plan/history.md:
   - <YYYY-MM-DD> <decision text>
 ```
 
-Don't commit, don't push, don't run /windup — plan/ is gitignored, so the decision lives locally. /replan will carry it forward; /windup may surface it in the day summary if relevant.
+Don't commit, don't push, don't run /windup-nt — plan/ is gitignored, so the decision lives locally. /replan-nt will carry it forward; /windup-nt may surface it in the day summary if relevant.

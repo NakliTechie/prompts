@@ -57,7 +57,7 @@ Turn the actionable findings (everything except false-positives/non-issues) into
 - **Tri-state checkboxes** on every item: `[ ]` open · `[x]` done · `[~]` partial.
 - **Each item carries** its finding ID, precise location, and a one-line "what + why it works": `- [ ] **H5** <fix> (path:line). <one-line rationale>.`
 - **`[test]` markers** — append e.g. **[test: <how>]** to any item whose fix can't be verified by static reasoning or unit tests and needs a runtime check.
-- **Deferrals state why + what unblocks.** A `[~]` partial or deferred item must say what's done, what's left, and what would un-defer it — and point at `/decide` when the blocker is a decision: `DEFERRED: needs a versioned-hash migration story — decide first (/decide).`
+- **Deferrals state why + what unblocks.** A `[~]` partial or deferred item must say what's done, what's left, and what would un-defer it — and point at `/decide-nt` when the blocker is a decision: `DEFERRED: needs a versioned-hash migration story — decide first (/decide-nt).`
 
 ## Phase 5 — Write the report + print
 
@@ -72,7 +72,7 @@ Turn the actionable findings (everything except false-positives/non-issues) into
 7. **Workplan** — the batched, ordered, checkbox plan from Phase 4. This section doubles as the fix workplan; work straight from it.
 8. **Progress log** — seed with one dated entry: `- YYYY-MM-DD: forward pass complete, workplan created. Starting Batch A.`
 
-Create `plan/` if missing and ensure it's gitignored. If today's report already exists, suffix `-2`. Don't commit/push — plan/ is local. **Do not overwrite the canonical `workplan.md`** — this report carries its own Workplan section. (Promotion into `workplan.md` happens via `/replan`, or offer to move it if the user has no competing workplan.)
+Create `plan/` if missing and ensure it's gitignored. If today's report already exists, suffix `-2`. Don't commit/push — plan/ is local. **Do not overwrite the canonical `workplan.md`** — this report carries its own Workplan section. (Promotion into `workplan.md` happens via `/replan-nt`, or offer to move it if the user has no competing workplan.)
 
 **Print to chat:** the summary counts + findings grouped by severity + the coverage map. Keep the full batched workplan in the file (just say it's there and name the keystone batch).
 
@@ -80,8 +80,8 @@ Create `plan/` if missing and ensure it's gitignored. If today's report already 
 
 End with a tight next-steps note (don't act on it):
 - The keystone batch to start with
-- Any architectural finding a fix is *blocked on* — record it with `/decide` (e.g. a hash-migration decision)
+- Any architectural finding a fix is *blocked on* — record it with `/decide-nt` (e.g. a hash-migration decision)
 - As you work the batches: check items off in the report, and append progress-log entries with **verification evidence** (`tests pass; still needs runtime test: C1`) and the **commit SHA** pushed
-- `/replan` will fold open batch items into `pending.md`/`workplan.md`, record dismissed false-positives into history's Dead ends, and archive this report
+- `/replan-nt` will fold open batch items into `pending.md`/`workplan.md`, record dismissed false-positives into history's Dead ends, and archive this report
 
 Do NOT start fixing. The forward pass finds, ranks, and plans; the user decides what to execute.

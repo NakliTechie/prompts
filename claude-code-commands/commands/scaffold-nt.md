@@ -4,26 +4,26 @@ argument-hint: "[name | parent/name]  (attach md/zip OR describe inline)"
 allowed-tools: ["Bash", "Glob", "Grep", "Read", "Write", "Task"]
 ---
 
-Bootstrap a new project from the handoff materials the user attached this session (md files, zip, or a combination). End state: local folder + remote repo + seeded `plan/` + a `/resume`-style brief on the first move.
+Bootstrap a new project from the handoff materials the user attached this session (md files, zip, or a combination). End state: local folder + remote repo + seeded `plan/` + a `/resume-nt`-style brief on the first move.
 
 **Default parent dir:** `~/code` (edit this to match where you keep your repos — e.g. `~/projects`, `~/src`). Call the resolved value `$ROOT` below.
 
 ## Phase 1 — Identify the handoff source
 
-`/scaffold` accepts the handoff in three modes — pick whichever the user provided:
+`/scaffold-nt` accepts the handoff in three modes — pick whichever the user provided:
 
 **A. Attached files.** Markdown handoffs, zips, or a combination.
 - Markdown files → go to the project root
 - Zip files → extracted at the project root, preserving structure
 - Anything else → ask before including
 
-**B. Inline description.** `$ARGUMENTS` and/or the natural-language context around the user's `/scaffold` invocation IS the handoff. Examples: *"a static site tracking wage data over 50 years, Python + Pandas + Quarto"* or *"tiny CLI that watches a folder and runs pytest on change, single-file Bash for v0"*. Treat the prose as the handoff and synthesize a starter `README.md` from it in Phase 3.
+**B. Inline description.** `$ARGUMENTS` and/or the natural-language context around the user's `/scaffold-nt` invocation IS the handoff. Examples: *"a static site tracking wage data over 50 years, Python + Pandas + Quarto"* or *"tiny CLI that watches a folder and runs pytest on change, single-file Bash for v0"*. Treat the prose as the handoff and synthesize a starter `README.md` from it in Phase 3.
 
 **C. Both.** Attached files are primary; the inline description is context. Drop the description into the initial commit message body and/or append a `## Context` section to the synthesized README.
 
 **Heuristic:** `$ARGUMENTS` containing only a name slug (`myapp`, `research/myapp`) is *not* a description — that's just the name. A description has multiple words / sentence-like prose.
 
-If neither files nor a substantive description is present (e.g., bare `/scaffold` or just `/scaffold myapp` with no context), stop and ask: *"Give me a handoff — drag md/zip into chat, or describe the project in a sentence or two."*
+If neither files nor a substantive description is present (e.g., bare `/scaffold-nt` or just `/scaffold-nt myapp` with no context), stop and ask: *"Give me a handoff — drag md/zip into chat, or describe the project in a sentence or two."*
 
 ## Phase 2 — Project name + location
 
@@ -93,7 +93,7 @@ If `gh` isn't authed or the org doesn't have permission, surface the error and l
 
 ## Phase 7 — Brief + get started
 
-Print a `/resume`-style brief:
+Print a `/resume-nt`-style brief:
 
 ```
 Scaffolded <name>.
@@ -115,4 +115,4 @@ End with one open-ended question:
 
 > Ready to start on **"<chunk title>"**, or want to read the handoff first?
 
-Do NOT start work without confirmation. /scaffold's job is to set the stage; the user decides when to step on it.
+Do NOT start work without confirmation. /scaffold-nt's job is to set the stage; the user decides when to step on it.

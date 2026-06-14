@@ -6,9 +6,9 @@ allowed-tools: ["Bash", "Glob", "Grep", "Read", "Write", "Task"]
 
 Review the app **as a cold first-time user** — the person who wasn't there when each feature was bolted on. Features get added in build-order, which makes sense to whoever built it; to a newcomer the nav, setup, settings, and first-run flow are an accretion, not a journey. This command walks the genuine newcomer path and reports where that accretion trips them.
 
-**READ-ONLY.** It ranks findings and proposes an ideal first-run sequence + information architecture — it never edits the app. Structural changes (reorder onboarding, regroup nav) are *product* calls → `/decide`; a friction point that's actually a *bug* → hand to `/walkthrough`.
+**READ-ONLY.** It ranks findings and proposes an ideal first-run sequence + information architecture — it never edits the app. Structural changes (reorder onboarding, regroup nav) are *product* calls → `/decide-nt`; a friction point that's actually a *bug* → hand to `/walkthrough-nt`.
 
-It's the third browser-walkthrough sibling: `/walkthrough` finds bugs and fixes them, `/guide` captures screenshots and documents — both **seed data so screens aren't empty**. `/ux-review` does the **opposite**: it wipes all state, because the whole point is to experience exactly what a newcomer experiences — the empty state, the first-run asks, the "what is this and what do I do" moment.
+It's the third browser-walkthrough sibling: `/walkthrough-nt` finds bugs and fixes them, `/guide-nt` captures screenshots and documents — both **seed data so screens aren't empty**. `/ux-review-nt` does the **opposite**: it wipes all state, because the whole point is to experience exactly what a newcomer experiences — the empty state, the first-run asks, the "what is this and what do I do" moment.
 
 If the project has no browser surface, say so. If the current directory isn't a git repo, ask which project — don't guess.
 
@@ -51,8 +51,8 @@ Across the journey and the whole surface, score these:
 
 ## Phase 5 — Rank, and propose the ideal newcomer journey + IA
 
-- **Rank with stable IDs** by how badly each blocks a newcomer reaching first value, using the shared severity scheme — `C/H/M/L` (Critical / High / Medium / Low), same as `/forward-pass` and `/walkthrough` so the IDs read the same downstream. Add an a11y/perf track from Phase 4.
-- **Each finding:** the specific step/screen · what a cold user experiences · *why* it trips them · a concrete fix · tagged **quick win** (trivial: a label, a default, a dead button) or **structural** (reorder onboarding, regroup nav — a design call → `/decide`).
+- **Rank with stable IDs** by how badly each blocks a newcomer reaching first value, using the shared severity scheme — `C/H/M/L` (Critical / High / Medium / Low), same as `/forward-pass-nt` and `/walkthrough-nt` so the IDs read the same downstream. Add an a11y/perf track from Phase 4.
+- **Each finding:** the specific step/screen · what a cold user experiences · *why* it trips them · a concrete fix · tagged **quick win** (trivial: a label, a default, a dead button) or **structural** (reorder onboarding, regroup nav — a design call → `/decide-nt`).
 - **The counter-proposal — the constructive heart.** Don't stop at "this is confusing." Give the **re-ordered ideal first-run sequence** and a **re-grouped IA** — "here's the journey a newcomer *should* have." Concrete, step-by-step, so the user can decide and act on it.
 
 ## Phase 6 — Write the report
@@ -68,4 +68,4 @@ Across the journey and the whole surface, score these:
 
 Create `plan/` if missing and ensure it's gitignored; if today's report exists, suffix `-2`. **Don't edit the app** — this is read-only. **Print to chat:** the journey's worst friction beats, the ranked findings, the Lighthouse scores, and the headline of the ideal-sequence proposal (keep the full proposal in the file).
 
-End by pointing structural recommendations at `/decide`, any genuine bugs at `/walkthrough`, and noting that `/replan` folds this report into `pending.md`/`workplan.md`.
+End by pointing structural recommendations at `/decide-nt`, any genuine bugs at `/walkthrough-nt`, and noting that `/replan-nt` folds this report into `pending.md`/`workplan.md`.

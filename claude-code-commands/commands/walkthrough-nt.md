@@ -4,11 +4,11 @@ argument-hint: "[role or flow to focus, e.g. admin | checkout]"
 allowed-tools: ["Bash", "Glob", "Grep", "Read", "Edit", "Write", "Task"]
 ---
 
-Drive the **running app through a real browser, one user role at a time** — walking each role's journeys exactly as that user would — and **fix the logical errors you hit along the way**. This is a *live runtime* audit: the inverse of `/forward-pass`, which reads the code cold and never runs or touches anything. Walkthrough boots the app, clicks through it as each role, watches what actually happens, and repairs what's broken.
+Drive the **running app through a real browser, one user role at a time** — walking each role's journeys exactly as that user would — and **fix the logical errors you hit along the way**. This is a *live runtime* audit: the inverse of `/forward-pass-nt`, which reads the code cold and never runs or touches anything. Walkthrough boots the app, clicks through it as each role, watches what actually happens, and repairs what's broken.
 
-**This command edits code, iteratively.** The moment it hits a logical error it fixes it *in place* — reproduce, root-cause, fix, re-verify in the browser — then walks on. It does not collect a findings dump and fix later: you're already booted, seeded, and logged in at the exact spot the bug lives, and fixing now unblocks the downstream journey a broken step would otherwise hide. Only *clear* logical errors get fixed inline; anything that changes product behavior, needs a design call, or is a large refactor gets **deferred** to the workplan (point at `/decide`), never force-applied. It does not commit or push — the fixes sit in the working tree for review (`/windup` ships them).
+**This command edits code, iteratively.** The moment it hits a logical error it fixes it *in place* — reproduce, root-cause, fix, re-verify in the browser — then walks on. It does not collect a findings dump and fix later: you're already booted, seeded, and logged in at the exact spot the bug lives, and fixing now unblocks the downstream journey a broken step would otherwise hide. Only *clear* logical errors get fixed inline; anything that changes product behavior, needs a design call, or is a large refactor gets **deferred** to the workplan (point at `/decide-nt`), never force-applied. It does not commit or push — the fixes sit in the working tree for review (`/windup-nt` ships them).
 
-If the project has no browser surface (pure CLI, library, backend-only), say so and suggest `/forward-pass` instead. If the current directory isn't a git repo, ask which project — don't guess.
+If the project has no browser surface (pure CLI, library, backend-only), say so and suggest `/forward-pass-nt` instead. If the current directory isn't a git repo, ask which project — don't guess.
 
 `$ARGUMENTS` (optional): a role (`admin`) or a flow (`checkout`) to scope to. If empty, cover every role and their primary journeys.
 
@@ -59,7 +59,7 @@ For each role, drive the browser through each journey, repeating this loop per s
    - navigation dead-ends, broken back-button, double-submit, lost session
    - **first-run / empty-state** broken (the create-from-scratch path)
    - display bugs in currency / dates / numbers / locale; off-by-one in lists and pagination
-3. **If it broke, fix it now.** First give it a stable ID by severity — `C1/H1/M1/L1` (Critical / High / Medium / Low), the same scheme `/forward-pass` uses so the IDs read the same downstream — and capture evidence: repro steps · expected vs. observed · a console/network excerpt · a screenshot. Then close the loop:
+3. **If it broke, fix it now.** First give it a stable ID by severity — `C1/H1/M1/L1` (Critical / High / Medium / Low), the same scheme `/forward-pass-nt` uses so the IDs read the same downstream — and capture evidence: repro steps · expected vs. observed · a console/network excerpt · a screenshot. Then close the loop:
    - **Reproduce** to be sure it's real — don't fix a symptom you can't trigger.
    - **Root-cause** it — read the handler / component / service. Common culprits: an exception thrown inside an event handler or async callback; reading DOM/state *after* a teardown (modal close, unmount); a promise resolved inside a handler that hangs when the handler throws.
    - **Fix minimally** — match the surrounding code; smallest change that corrects the behavior.
@@ -67,7 +67,7 @@ For each role, drive the browser through each journey, repeating this loop per s
 4. **Continue** the journey from where you were.
 
 **Two guardrails so the loop stays a walkthrough, not a refactor:**
-- **Timebox each fix.** If the root cause turns into a large refactor, a shared-contract change, or anything that alters product behavior / needs a design call — **don't fix it inline. Defer it**: log the finding ID with what's broken and what would unblock it, point at `/decide`, and keep walking. Iterative ≠ reckless.
+- **Timebox each fix.** If the root cause turns into a large refactor, a shared-contract change, or anything that alters product behavior / needs a design call — **don't fix it inline. Defer it**: log the finding ID with what's broken and what would unblock it, point at `/decide-nt`, and keep walking. Iterative ≠ reckless.
 - **One fix at a time, re-verified**, so a fix doesn't silently mask or cause the next bug.
 
 Run a **cross-role authorization probe** as part of the walk: as a low-privilege role, try a high-privilege action or URL directly — does the guard hold, or does the UI just hide the button (IDOR / privilege leak)? Fix a leak in place, or defer it if it needs a policy call.
@@ -79,13 +79,13 @@ For surfaces the browser can't drive — payments, outbound email, native file p
 **Write `plan/walkthrough-YYYY-MM-DD.md`** — a self-contained record, in this order:
 1. **Header** — date, scope (roles × journeys covered), counts: *found / fixed / deferred*.
 2. **Role inventory + coverage map** — each role, the journeys walked, and — crucially — **what was NOT reached**: roles you couldn't authenticate, flows you couldn't drive (payment, email, native dialogs), states you couldn't reach. The blind spots.
-3. **Issues** by ID, grouped Critical → High → Medium → Low — each: role · journey step · symptom · root cause · then either **FIXED: `path:line` + verification evidence** or **DEFERRED: why + what unblocks** (`→ /decide`).
+3. **Issues** by ID, grouped Critical → High → Medium → Low — each: role · journey step · symptom · root cause · then either **FIXED: `path:line` + verification evidence** or **DEFERRED: why + what unblocks** (`→ /decide-nt`).
 4. **Cross-role / authz findings** — privilege leaks and guards that held.
 5. **Verification reality** — what the browser could and couldn't exercise this run, and what was stubbed.
 6. **Progress log** — seed one dated entry: `- YYYY-MM-DD: walkthrough complete — N roles, M journeys; X fixed, Y deferred.`
 
-Create `plan/` if missing and ensure it's gitignored. If today's report already exists, suffix `-2`. **Don't overwrite the canonical `workplan.md`** — this report carries its own deferred items; `/replan` folds them into `pending.md` / `workplan.md`.
+Create `plan/` if missing and ensure it's gitignored. If today's report already exists, suffix `-2`. **Don't overwrite the canonical `workplan.md`** — this report carries its own deferred items; `/replan-nt` folds them into `pending.md` / `workplan.md`.
 
 **Print to chat:** the counts, the issues grouped *fixed* vs. *deferred* (with one-line evidence each), and the coverage map's blind spots. Keep the full detail in the file.
 
-The code fixes are **live in the working tree, uncommitted** — don't commit or push. End by naming what changed, what's deferred (and why), and that `/windup` will ship the fixes when the user is ready.
+The code fixes are **live in the working tree, uncommitted** — don't commit or push. End by naming what changed, what's deferred (and why), and that `/windup-nt` will ship the fixes when the user is ready.

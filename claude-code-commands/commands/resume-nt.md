@@ -2,9 +2,9 @@
 description: Resume a project — read plan/workplan.md + pending.md + history.md + latest day summary, present a resumption brief, and pause for direction
 ---
 
-Brief the user on where to pick up in the current project. `/resume` is the counterpart to `/windup` — windup writes the resumption context into `plan/`, resume reads it back.
+Brief the user on where to pick up in the current project. `/resume-nt` is the counterpart to `/windup-nt` — windup writes the resumption context into `plan/`, resume reads it back.
 
-**This is a READ-ONLY command.** Don't write to plan/, don't auto-start work, don't invoke /windup or /replan. Present the brief and pause for direction.
+**This is a READ-ONLY command.** Don't write to plan/, don't auto-start work, don't invoke /windup-nt or /replan. Present the brief and pause for direction.
 
 If the current directory is not inside a git repo, ask the user which project to resume — don't guess.
 
@@ -16,7 +16,7 @@ Look inside `plan/` for:
 - `history.md` — quick scan of `## Decisions` (recent ones) for context
 - The most recent `plan/YYYY-MM-DD-summary.md` — freshest "where we left off"
 
-If none exist, fall back: read README, run `git log --oneline -10` and `git status`, and orient from those. Note in the brief that no `plan/` handoff is on file and suggest running `/windup` at the next end-of-session to start building one.
+If none exist, fall back: read README, run `git log --oneline -10` and `git status`, and orient from those. Note in the brief that no `plan/` handoff is on file and suggest running `/windup-nt` at the next end-of-session to start building one.
 
 If only some exist, work with what's there — don't error.
 
@@ -53,7 +53,7 @@ Blocking (if any):
   - <open questions from pending.md that relate to this chunk; or top 2-3 open questions if relevance unclear>
 ```
 
-If there's no `workplan.md` or it's empty but `pending.md` has items, show the top 3-5 items from `## Now` instead of a chunk, and note that running `/replan` would generate a proper workplan.
+If there's no `workplan.md` or it's empty but `pending.md` has items, show the top 3-5 items from `## Now` instead of a chunk, and note that running `/replan-nt` would generate a proper workplan.
 
 ## Step 4: Ask for direction (one question, open-ended)
 
@@ -67,4 +67,4 @@ Keep it conversational. The user might respond with "go", "skip to chunk 3", "ac
 
 Only after the user confirms direction, start executing. Treat the chosen chunk's items as a working list. Refer back to `plan/workplan.md` and `plan/pending.md` as you go.
 
-If the user picks a different chunk or area, follow that. /resume's job is to present and hand off — not to enforce the top chunk.
+If the user picks a different chunk or area, follow that. /resume-nt's job is to present and hand off — not to enforce the top chunk.

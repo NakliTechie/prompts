@@ -24,7 +24,7 @@ Keep it tight — bullet points, not prose. The future-self reading this wants s
 
 ## 2. Pending items
 
-Write or update `plan/pending.md`. The canonical structure (shared with /replan) is:
+Write or update `plan/pending.md`. The canonical structure (shared with /replan-nt) is:
 
 ```
 # Pending
@@ -41,7 +41,7 @@ Write or update `plan/pending.md`. The canonical structure (shared with /replan)
 
 Merge rules:
 - **File exists with sections:** preserve them. New items surfaced today go into `Now` by default, or `Open questions` if phrased as a question. Remove items finished today from wherever they sit. Don't touch `Parked` unless something explicitly moved out of scope today.
-- **File exists, flat (no sections):** keep it flat — don't restructure mid-windup. Just add new items and remove finished ones. (User can run `/replan` when ready to migrate to the structured form.)
+- **File exists, flat (no sections):** keep it flat — don't restructure mid-windup. Just add new items and remove finished ones. (User can run `/replan-nt` when ready to migrate to the structured form.)
 - **File doesn't exist:** create it with the three sections (canonical from day one).
 
 Order items by priority within each section. Each item is one line — link to a deeper plan/ doc if there's more context. `pending.md` is the source of truth for what's open; execution order is the workplan's job (next step).
@@ -60,8 +60,8 @@ For each chunk include:
 - Optional: a note on prerequisites or sequencing
 
 Item conventions:
-- A `[~]` partial / deferred item states what's done, what's left, and what would un-defer it — point at `/decide` when the blocker is a decision.
-- If a chunk came from a `/forward-pass`, `/walkthrough`, or `/ux-review`, carry the finding IDs (`C1`, `H2`, …) and a `[test]` marker on any item whose verification is still owed.
+- A `[~]` partial / deferred item states what's done, what's left, and what would un-defer it — point at `/decide-nt` when the blocker is a decision.
+- If a chunk came from a `/forward-pass-nt`, `/walkthrough-nt`, or `/ux-review-nt`, carry the finding IDs (`C1`, `H2`, …) and a `[test]` marker on any item whose verification is still owed.
 
 Items that don't yet cluster into a chunk go under a `## Unbatched` section — that flags they need more thought before they're actionable.
 
@@ -87,7 +87,7 @@ Print a clear, tight handoff message in this exact shape:
 Wound up <project-name> for today.
 
 Folder: <absolute path>
-Resume next session: cd <absolute path> and run /resume
+Resume next session: cd <absolute path> and run /resume-nt
 
 Next chunk — <title from top of workplan.md>:
   - <item>
@@ -95,4 +95,4 @@ Next chunk — <title from top of workplan.md>:
   - <item>
 ```
 
-This is the bridge to the next conversation — the folder path must be absolute and copy-pasteable, and the named chunk should be the one the next session should grab first. `/resume` will read the workplan + pending + latest summary and brief the user automatically.
+This is the bridge to the next conversation — the folder path must be absolute and copy-pasteable, and the named chunk should be the one the next session should grab first. `/resume-nt` will read the workplan + pending + latest summary and brief the user automatically.

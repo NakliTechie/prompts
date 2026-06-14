@@ -4,7 +4,7 @@ argument-hint: "[role/feature to focus | 'update' to refresh an existing guide]"
 allowed-tools: ["Bash", "Glob", "Grep", "Read", "Edit", "Write", "Task"]
 ---
 
-Build a **searchable HTML guide** for the app: identify each user role, drive the running app through their features **in a real browser capturing screenshots**, and assemble a single-file `guide/index.html` — role sections × feature subsections × captioned screenshots, with **inline search**. This is the documentation sibling of `/walkthrough`: same role-driven browser spine, but it *captures and documents* the app instead of *finding and fixing* bugs.
+Build a **searchable HTML guide** for the app: identify each user role, drive the running app through their features **in a real browser capturing screenshots**, and assemble a single-file `guide/index.html` — role sections × feature subsections × captioned screenshots, with **inline search**. This is the documentation sibling of `/walkthrough-nt`: same role-driven browser spine, but it *captures and documents* the app instead of *finding and fixing* bugs.
 
 **The guide is a build artifact.** Its source of truth is a small committed **generator** — a capture script (route-plans per role) + a builder (captions/sections → HTML). The prose lives in the generator's data, so you **edit the generator and regenerate**; you never hand-edit `index.html`. (See Phase 2 for the edit-vs-regenerate rule.)
 
@@ -14,7 +14,7 @@ If the project has no browser surface (pure CLI, library, backend-only), say so 
 
 ## Phase 1 — Identify roles + the feature map
 
-Derive the cast and the screens, the same way `/walkthrough` does:
+Derive the cast and the screens, the same way `/walkthrough-nt` does:
 - **Roles** — from RBAC enums, route guards, role-forked UI, seed personas, docs. Always include the **anonymous visitor** and the **brand-new zero-data user** (first-run) — a guide that only shows a full-of-data app misleads new users.
 - **Features per role** — entry-points-first, the screens/flows each role actually uses. This list **becomes the capture script's route-plan**: an ordered set of `(NN, slug, route, wait_ms)` per role, exactly like Bahi's `PHARMA_ROUTES` / `CONSULTING_ROUTES`.
 
@@ -34,7 +34,7 @@ Look for an existing generator — a `guide/` or `demo/` folder with a capture s
 
 ## Phase 3 — Boot the app, the browser, and a session per role
 
-Same runtime discipline as `/walkthrough`:
+Same runtime discipline as `/walkthrough-nt`:
 - **Serve a production build, not dev mode** — faster, pre-compiled, and the bundle users actually run. (Bahi serves the static app with `python3 -m http.server`; a framework app needs `build` + `start`.) Use explicit `127.0.0.1` + a known-free port.
 - **Wait for real readiness before each shot** — `load` + `document.fonts.ready` + a short settle; never `domcontentloaded` (it fires before hydration → blank screenshots).
 - **Enter as each role with seeded data.** Prefer the app's own in-page hooks to inject a seeded dataset and **bypass un-automatable pickers** (Bahi's `capture.py` calls `readKhata`/`openDbFromBytes` and stubs the FS-Access picker). Otherwise log in through the UI. Seed enough that screens aren't empty — except the deliberate first-run shots.
@@ -49,7 +49,7 @@ In the capture script, for each role: load that role's seeded dataset, then walk
 - **Per-route log** — write a `CAPTURE-LOG.md`: `N/M routes rendered ok · X console errors`, with the failures named. This is the coverage artifact.
 - **Scoped re-capture on update** — when `$ARGUMENTS`/`update`, only re-shoot the changed/added routes; leave the rest.
 
-A route that renders blank or throws console errors is both a bad screenshot **and** a likely bug — note it, and hand it to `/walkthrough` rather than papering over it.
+A route that renders blank or throws console errors is both a bad screenshot **and** a likely bug — note it, and hand it to `/walkthrough-nt` rather than papering over it.
 
 ## Phase 5 — Build the single-file guide
 
@@ -70,6 +70,6 @@ Keep CSS inlined; the guide must be a single portable file plus its `screenshots
 Don't ship a guide you haven't looked at:
 - **Serve `guide/` and open it.** Confirm screenshots load (not blank), the **inline search** filters correctly (type a feature name → only matching cards remain; `Esc` restores), and TOC anchors jump.
 - **Print:** roles × features covered, total screenshots, any `empty`/`fail`/console-error routes (the blind spots), and the path to the guide.
-- **Shipping:** unlike `plan/`, the guide is meant to be committed. Screenshots can be large — respect `.gitignore`/`.assetsignore` and let the user decide whether to commit images or host them. Don't push; `/windup` ships it.
+- **Shipping:** unlike `plan/`, the guide is meant to be committed. Screenshots can be large — respect `.gitignore`/`.assetsignore` and let the user decide whether to commit images or host them. Don't push; `/windup-nt` ships it.
 
-End by naming where the guide is, what was (re)captured, any broken screens worth a `/walkthrough`, and — for an update — that you edited the generator + regenerated, not the HTML.
+End by naming where the guide is, what was (re)captured, any broken screens worth a `/walkthrough-nt`, and — for an update — that you edited the generator + regenerated, not the HTML.

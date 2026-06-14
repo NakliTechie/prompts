@@ -12,9 +12,9 @@ List everything currently in `plan/` (excluding any existing `_archive/`). Class
 
 - **Daily summary** — matches `plan/YYYY-MM-DD-summary.md` or similar dated pattern. → folds into `history.md`
 - **Unnamed scratch** — generic names like `notes.md`, `scratch.md`, `thoughts.md`, untitled drafts. → folds into `history.md`
-- **Forward-pass audit report** — `plan/forward-pass-YYYY-MM-DD.md` (from `/forward-pass`). → sweep open (`[ ]`/`[~]`) workplan items into `pending.md`/`workplan.md`, fold its verified false-positives into `history.md` Dead ends, then archive the report
-- **Walkthrough audit report** — `plan/walkthrough-YYYY-MM-DD.md` (from `/walkthrough`). → same handling as a forward-pass report: sweep open (`[ ]`/`[~]`) / deferred items into `pending.md`/`workplan.md`, fold any verified non-issues into `history.md` Dead ends, then archive the report
-- **UX-review report** — `plan/ux-review-YYYY-MM-DD.md` (from `/ux-review`). → same handling: sweep open / deferred findings into `pending.md`/`workplan.md` (its structural recommendations are decisions — surface them for `/decide`), then archive the report
+- **Forward-pass audit report** — `plan/forward-pass-YYYY-MM-DD.md` (from `/forward-pass-nt`). → sweep open (`[ ]`/`[~]`) workplan items into `pending.md`/`workplan.md`, fold its verified false-positives into `history.md` Dead ends, then archive the report
+- **Walkthrough audit report** — `plan/walkthrough-YYYY-MM-DD.md` (from `/walkthrough-nt`). → same handling as a forward-pass report: sweep open (`[ ]`/`[~]`) / deferred items into `pending.md`/`workplan.md`, fold any verified non-issues into `history.md` Dead ends, then archive the report
+- **UX-review report** — `plan/ux-review-YYYY-MM-DD.md` (from `/ux-review-nt`). → same handling: sweep open / deferred findings into `pending.md`/`workplan.md` (its structural recommendations are decisions — surface them for `/decide-nt`), then archive the report
 - **Canonical output** — `pending.md`, `workplan.md`, `history.md`. → gets rewritten this run
 - **Named design / intentional artifact** — anything with a meaningful name: `feature-x-design.md`, `<milestone>-breakdown.md`, `pending-from-<source>.md`, charters, spec drafts. → **leave untouched**
 
@@ -76,7 +76,7 @@ Existing pending.md items are categorized by best judgment. Items pulled from th
 
 ## Step 4: Refresh workplan.md
 
-Regenerate `plan/workplan.md` from the freshly restructured pending Now. Same shape as /windup produces: each chunk gets a short title, 2–5 items from Now, and a rough size estimate ("30 min", "half day", "1–2 hours"). Items that don't yet cluster go under `## Unbatched`.
+Regenerate `plan/workplan.md` from the freshly restructured pending Now. Same shape as /windup-nt produces: each chunk gets a short title, 2–5 items from Now, and a rough size estimate ("30 min", "half day", "1–2 hours"). Items that don't yet cluster go under `## Unbatched`.
 
 **Preserve in-flight chunks:** If a chunk in the existing workplan still has all its items in pending Now, copy it through verbatim. Don't shuffle chunks for no reason — the user may be mid-execution.
 
@@ -103,4 +103,4 @@ Archived to plan/_archive/: <count> files
 Preserved untouched: <list of named design docs, or "none">
 ```
 
-Keep tight — the user wants to see what changed without re-reading the files. Do NOT commit or push as part of /replan; plan/ is gitignored, so consolidation stays local. (Push happens via /windup.)
+Keep tight — the user wants to see what changed without re-reading the files. Do NOT commit or push as part of /replan-nt; plan/ is gitignored, so consolidation stays local. (Push happens via /windup.)
