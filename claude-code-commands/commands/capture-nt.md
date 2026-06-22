@@ -47,6 +47,10 @@ Many captures are **pointers, not destinations** — a listicle ("10 repos that�
   - **PDF / doc:** the `pdf` / `docx` skill → one-line gist.
   - **Login-gated:** Chrome MCP, or skip and mark `(not followed — gated)`.
 - **Article citing links → follow only the load-bearing ones** (the 1–3 the argument depends on), not every nav link.
+- **Repo or paper → _full-capture_ it, don't just summarise.** Whenever captured content — a **tweet**, article, PDF, or doc — points at a **GitHub repo** or an **arXiv / academic paper**, that target is a destination, not a footnote. Fetch it in **full** and give it **its own indexed source note** in `sources/`, then `[[wikilink]]` the capturing note to it — so the vault is full-text-searchable on the repo/paper itself, not just a one-liner about it.
+  - **Repo:** `gh repo view` for stars/license **+** the full README (key files, usage, claims). New note `source_type: repo`.
+  - **arXiv / paper:** run the **`pdf` skill** on the PDF (`arxiv.org/pdf/<id>`) for the **full text**; save the extract to `assets/<slug>.txt`. New note `source_type: pdf` (abstract + claims + numbers + figure captions).
+  - Still respect the **~15-link bound**: if one source cites more repos/papers than that, full-capture the load-bearing ones and **`log` the deferred rest** (one-line those) — never silently drop. The one-line summary is the *floor* for incidental listicle items; a repo or paper that the content actually rests on gets the *full treatment*.
 - **Bound it.** Cap at ~15 followed links; beyond that, follow the most important and **`log` what you skipped** — never silently truncate. Dedupe; skip chrome (login / share / home links).
 - **Flag discrepancies.** When a followed fact contradicts the source, record both: _"claimed 51K → verified 69K (at capture)"_.
 
