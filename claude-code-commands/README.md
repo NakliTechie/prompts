@@ -1,12 +1,12 @@
 # Claude Code session commands
 
-Sixteen [Claude Code](https://docs.claude.com/en/docs/claude-code) slash commands I use to run an agent across many projects at once. They share one idea: a **gitignored `plan/` folder** in each repo holding three files —
+Eighteen [Claude Code](https://docs.claude.com/en/docs/claude-code) slash commands I use to run an agent across many projects at once. Most share one idea: a **gitignored `plan/` folder** in each repo holding three files —
 
 - `history.md` — Decisions · Log · Dead ends
 - `pending.md` — Now · Parked · Open questions
 - `workplan.md` — chunked, checkboxed play
 
-The commands read and write those files, so every session picks up exactly where the last one left off.
+The commands read and write those files, so every session picks up exactly where the last one left off. A separate pair — `/capture-nt` and `/ask-nt` — works the other side of the desk: a personal **knowledge vault** you capture into and ask questions of (see [below](#knowledge-vault)).
 
 | Command | When | What it does |
 |---------|------|--------------|
@@ -28,6 +28,17 @@ The commands read and write those files, so every session picks up exactly where
 | `/replan-nt` | occasionally | Fold accumulated summaries + scratch back into the three files; archive the rest. |
 
 They speak one vocabulary, so each hands off to the next: `/windup-nt` writes what `/resume-nt` reads, `/forward-pass-nt` and `/walkthrough-nt` feed `/replan-nt`, `/decide-nt` feeds `history.md`.
+
+## Knowledge vault
+
+Two commands operate on a single Obsidian-compatible **knowledge vault** (plain-markdown, git-backed) instead of a repo's `plan/` folder — the write and read halves of a second brain. They keep one rule: **sources** (what *they* said) stay separate from **notes** (what *you* concluded).
+
+| Command | When | What it does |
+|---------|------|--------------|
+| `/capture-nt <url\|file>` | save something | Fetch + extract a URL / file / PDF (full text, OCR for scans), **follow & fully index any referenced repo or arXiv paper**, write a schema'd **source note**, tag its realm (knowledge / personal / work), link it into the right topic map with backlinks, and optionally promote a distilled **note** — then commit + push. Idempotent on re-run. |
+| `/ask-nt <question>` | recall something | Search + read the vault and answer **grounded only in your own notes**, with citations to the notes used. The read-side sibling of `/capture-nt` — the "search" half of your personal Google. Read-only. |
+
+Both expect a vault at `~/Code/knowledge` (edit that path at the top of `commands/capture-nt.md` and `commands/ask-nt.md` if yours lives elsewhere).
 
 ## Install
 
