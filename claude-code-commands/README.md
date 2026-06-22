@@ -1,5 +1,7 @@
 # Claude Code session commands
 
+> 📦 **Now maintained in their own repo: [NakliTechie/ntkit](https://github.com/NakliTechie/ntkit)** — the canonical home, framed as *the rigor layer for AI-assisted development*. This folder is kept as a mirror.
+
 Eighteen [Claude Code](https://docs.claude.com/en/docs/claude-code) slash commands I use to run an agent across many projects at once. Most share one idea: a **gitignored `plan/` folder** in each repo holding three files —
 
 - `history.md` — Decisions · Log · Dead ends
