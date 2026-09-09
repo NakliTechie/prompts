@@ -1,0 +1,14 @@
+# One of these per mailbox. setup_wizard.sh generates this for you, but you
+# can hand-edit it after (add priority senders, tighten queries, etc).
+account: name@yourcompany.com
+client_secret_path: client_secret.json     # gitignored — never commit
+token_path: token.json                     # gitignored — never commit
+scopes:
+  - https://www.googleapis.com/auth/gmail.modify   # read+send; fetch.py only ever reads
+queries:
+  - "is:unread in:inbox is:important newer_than:2d"
+  - "is:unread in:inbox category:primary newer_than:1d"
+priority_senders:
+  - vip@example.com   # mail from these addresses gets full-body pulled, not just a snippet
+max_results_per_query: 25
+priority_body_char_limit: 6000

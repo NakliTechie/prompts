@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+account.yaml
+client_secret.json
+token.json
+briefs/
+rules.md
