@@ -109,6 +109,60 @@ tool instead of `scripts/fetch.py`.
    treated as settled — `tune` edits a file, it doesn't require a commit or
    a push on its own.
 
+## Patterns proven in practice
+
+These are not hypothetical — every one of them came from a real misread
+during a live multi-week deployment, got corrected once, and has held ever
+since because it was written down. This is the actual payload of the
+skill; the scripts just fetch bytes. When `tune` adds a new one, add it
+here too if it's a *pattern* (would recur in any deployment) rather than a
+one-off fact (belongs only in that deployment's `rules.md`).
+
+1. **Verify `in:sent` before calling anything undone.** The single highest
+   -value check in the whole skill. An escalation, a reply, a forward can
+   all be sent and still show as "not sent" if you only look at the inbox
+   — the send lives in a different folder. Search both before writing the
+   word "undone" anywhere.
+2. **Alert reliability is per-channel, not blanket.** A bank/service sends
+   alerts reliably for some transaction types and silently for others —
+   e.g. a UPI debit alerts every time, but a standing-instruction debit or
+   an inbound credit from the same bank may never generate one, even
+   though the money moved. Don't infer "unpaid" or "not received" from
+   silence on a channel you haven't specifically confirmed is reliable.
+3. **A payment split into legs must sum to the known total.** When an
+   obligation is paid in parts (e.g. a bill plus a withheld-tax leg to a
+   government account), check the legs add up. A leg that's short by
+   exactly the other leg's amount means one of them didn't happen, not
+   that the math is fuzzy.
+4. **Hard deadlines and soft ones need different verbs.** "Watch for it
+   around the 5th" produces a shrug when it's late; "must post by the 5th,
+   full stop" produces a same-day REMINDER. Get this distinction from the
+   user explicitly — don't infer strictness from how a bill merely reads.
+5. **A cc'd invoice isn't always the recipient's bill.** Multi-party
+   billing chains (agency pays vendor, client is cc'd for visibility) get
+   misread as "you owe this" by default. Confirm who actually pays before
+   flagging anything as an unpaid bill.
+6. **Corrections sometimes take more than one round — track the
+   trajectory, not just the final answer.** A real example from this
+   deployment: round 1 assumed a payment leg generates no confirmation
+   email (wrong); round 2, told to look for a specific description string,
+   still found nothing after an exhaustive search; round 3, the user
+   confirmed via their own bank statement that the debit is real but this
+   specific channel just doesn't alert. All three rounds got written into
+   the rules file as they happened, not silently overwritten — so the
+   history of *why* the current rule is what it is stays legible.
+7. **"Resolved" entries expire by cycle, not forever, unless you say
+   otherwise.** Closing "rent is paid this cycle" should stop the flag for
+   this billing period, not suppress it permanently — the same obligation
+   recurs next month and needs its own confirmation. Only genuinely
+   one-time closures (a cancelled meeting, a sent reply) are closed for
+   good.
+8. **Priority-sender full-body pulls beat snippet triage.** A snippet is
+   enough to classify noise; it's not enough to summarize a real forward
+   or a multi-message thread from someone whose mail always matters. Pull
+   the full body for named priority senders; snippet-classify everyone
+   else.
+
 ## Design notes
 
 - The skill is the engine; `rules.md` + `account.yaml` are the data. A
